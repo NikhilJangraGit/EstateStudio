@@ -1,0 +1,39 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-red: #D32F2F;
+  --color-brand-red-dark: #B71C1C;
+  --color-brand-white: #FFFFFF;
+  --color-brand-gray: #F9F9F9;
+  --color-brand-gray-dark: #E0E0E0;
+  --color-brand-black: #0A0A0A;
+
+  --font-sans: "Inter", system-ui, sans-serif;
+  
+  --color-primary: var(--color-brand-red);
+  --color-background: var(--color-brand-white);
+  --color-surface: var(--color-brand-gray);
+  --color-text: var(--color-brand-black);
+  --color-text-muted: #666666;
+}
+
+@layer base {
+  body {
+    @apply bg-[var(--color-brand-black)] text-white font-sans antialiased selection:bg-brand-red selection:text-white overflow-x-hidden;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-semibold tracking-tight;
+  }
+}
+
+/* Custom Utilities for "Architectural" feel */
+@layer utilities {
+  .architectural-grid {
+    @apply grid grid-cols-1 md:grid-cols-12 gap-6;
+  }
+  
+  .glass-nav {
+    @apply bg-black/60 backdrop-blur-2xl border-b border-white/10;
+  }
+}
