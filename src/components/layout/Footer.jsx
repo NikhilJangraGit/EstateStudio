@@ -1,10 +1,9 @@
 import { Link } from 'react-router-dom';
-import { ArrowRight } from 'lucide-react';
 
 const Footer = () => {
   return (
-    <footer className="bg-[#050505] text-white pt-32 pb-10 border-t border-white/5 relative overflow-hidden">
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-[var(--color-primary)]/5 blur-[120px] rounded-full pointer-events-none" />
+    <footer className="bg-transparent text-white pt-32 pb-10 border-t border-white/10 relative overflow-hidden">
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-[var(--color-primary)]/10 blur-[150px] rounded-full pointer-events-none" />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8 mb-20">
           <div>
@@ -28,7 +27,8 @@ const Footer = () => {
           <div>
             <h4 className="text-xs font-bold tracking-widest uppercase mb-8 text-gray-500">Company</h4>
             <ul className="space-y-4 text-sm text-gray-300 font-light">
-              <li><Link to="/contact" className="hover:text-[var(--color-primary)] transition-colors">The Briefing</Link></li>
+              <li><Link to="/about" className="hover:text-[var(--color-primary)] transition-colors">About Us</Link></li>
+              <li><Link to="/contact" className="hover:text-[var(--color-primary)] transition-colors">Contact Us</Link></li>
               <li><a href="#" className="hover:text-[var(--color-primary)] transition-colors">Privacy Protocol</a></li>
             </ul>
           </div>

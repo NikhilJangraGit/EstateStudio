@@ -3,6 +3,7 @@ import Layout from './components/layout/Layout';
 import Home from './pages/Home';
 import Services from './pages/Services';
 import Contact from './pages/Contact';
+import About from './pages/About';
 import ScrollToTop from './components/ScrollToTop';
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="services" element={<Services />} />
+          <Route path="about" element={<About />} />
           <Route path="contact" element={<Contact />} />
         </Route>
       </Routes>

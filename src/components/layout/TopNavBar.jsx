@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 const navLinks = [
   { name: 'Home', path: '/' },
+  { name: 'About Us', path: '/about' },
   { name: 'Services', path: '/services' },
 ];
 
@@ -36,7 +37,7 @@ const TopNavBar = () => {
             ))}
             <Link
               to="/contact"
-              className="bg-[var(--color-primary)] text-white px-6 py-2.5 rounded-full text-sm font-bold tracking-wide hover:bg-[var(--color-brand-red-dark)] hover:scale-105 transition-all shadow-[0_0_20px_rgba(211,47,47,0.3)]"
+              className="bg-[var(--color-primary)] text-white px-6 py-2.5 rounded-full text-sm font-bold tracking-wide hover:bg-[var(--color-brand-red-dark)] hover:scale-105 transition-all shadow-[0_0_20px_rgba(230,57,70,0.4)]"
             >
               PARTNER WITH US
             </Link>
@@ -59,7 +60,7 @@ const TopNavBar = () => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-[#0A0A0A] border-b border-white/10"
+            className="md:hidden bg-black/90 backdrop-blur-3xl border-b border-white/10 shadow-2xl"
           >
             <div className="px-4 pt-2 pb-6 space-y-1">
               {navLinks.map((link) => (
