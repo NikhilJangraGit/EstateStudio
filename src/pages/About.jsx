@@ -45,13 +45,13 @@ const About = () => {
                   name: "Mr. Rishabh Raj",
                   role: "Chief Growth Officer (CGO)",
                   desc: "Rishabh Raj leads business growth, client acquisition, and marketing initiatives at Estate Studio. With experience in the real estate industry since 2022, he specializes in building strong relationships with builders, developers, brokers, and real estate professionals. He oversees business development, strategic partnerships, digital marketing, lead generation, and brand expansion. His focus is on driving sustainable growth, increasing market presence, and creating effective marketing strategies that help real estate businesses generate quality leads and achieve higher revenue growth.",
-                  image: "/team/amit.jpg"
+                  image: "/team/rishabh.jpg"
                 },
                 {
                   name: "Mr. Amit Parmar",
                   role: "Chief Production Officer (CPO)",
                   desc: "Amit Parmar is the Chief Production Officer of Estate Studio, leading all production and creative operations. With experience in the real estate industry since 2024, he specializes in real estate content creation, professional property shoots, video production, drone cinematography, and post-production management. He ensures that every project is executed with high-quality visuals, creative storytelling, and professional standards, helping builders, brokers, and real estate brands showcase their properties effectively and generate better market engagement.",
-                  image: "/team/rishabh.jpg"
+                  image: "/team/amit.jpg"
                 }
               ].map((member, idx) => (
                 <div key={idx} className="glass-card rounded-[2.5rem] overflow-hidden group border border-white/5 flex flex-col relative">
