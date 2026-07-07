@@ -1,6 +1,8 @@
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, Play, TrendingUp, Users, Shield } from 'lucide-react';
+import { ArrowRight, Play, TrendingUp, Users, Shield, Star, MapPin, Briefcase, ChevronLeft, ChevronRight, Loader2, MessageCircle, Calendar } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 const fadeUp = {
   hidden: { opacity: 0, y: 40 },
@@ -18,6 +20,41 @@ const staggerContainer = {
 };
 
 const Home = () => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [realtors, setRealtors] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const { API_URL } = useAuth();
+
+  useEffect(() => {
+    const fetchRealtors = async () => {
+      try {
+        const res = await fetch(`${API_URL}/realtors`);
+        const data = await res.json();
+        setRealtors(data);
+      } catch (error) {
+        console.error('Failed to fetch realtors:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    fetchRealtors();
+  }, [API_URL]);
+
+  const realtorsPerPage = 3;
+  const indexOfLastRealtor = currentPage * realtorsPerPage;
+  const indexOfFirstRealtor = indexOfLastRealtor - realtorsPerPage;
+  const currentRealtors = realtors.slice(indexOfFirstRealtor, indexOfLastRealtor);
+  const totalPages = Math.ceil(realtors.length / realtorsPerPage);
+
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
+    const section = document.getElementById('featured-realtors');
+    if (section) {
+      section.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <div className="w-full bg-transparent text-white overflow-x-hidden">
       {/* Hero Section */}
@@ -207,6 +244,165 @@ const Home = () => {
               </motion.div>
             ))}
           </motion.div>
+        </div>
+      </section>
+
+      {/* Featured Realtors Section */}
+      <section id="featured-realtors" className="py-20 relative">
+        <div className="absolute top-1/2 right-0 w-[600px] h-[600px] bg-blue-500/10 blur-[150px] rounded-full pointer-events-none" />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <motion.div 
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={fadeUp}
+            className="mb-16 flex flex-col md:flex-row justify-between items-end gap-6"
+          >
+            <div>
+              <h2 className="text-4xl md:text-5xl font-bold text-white tracking-widest uppercase mb-4">
+                Top Realtors
+              </h2>
+              <div className="h-1 w-24 bg-[var(--color-primary)] rounded-full shadow-[0_0_20px_rgba(230,57,70,0.5)]" />
+              <p className="mt-4 text-gray-400 max-w-xl">
+                Connect with the industry's most trusted and high-performing real estate professionals.
+              </p>
+            </div>
+            
+            <Link 
+              to="/book-my-realtor" 
+              className="bg-white/10 hover:bg-[var(--color-primary)] text-white border border-white/20 hover:border-[var(--color-primary)] px-6 py-3 rounded-full text-sm font-bold tracking-wide transition-all shadow-lg hover:shadow-[0_0_20px_rgba(230,57,70,0.4)] flex items-center whitespace-nowrap"
+            >
+              BOOK A REALTOR
+              <ArrowRight className="ml-2 w-4 h-4" />
+            </Link>
+          </motion.div>
+
+          <motion.div 
+            key={currentPage}
+            initial="hidden"
+            animate="visible"
+            variants={staggerContainer}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+          >
+            {loading ? (
+              <div className="col-span-full flex justify-center py-20">
+                <Loader2 className="w-10 h-10 text-[var(--color-primary)] animate-spin" />
+              </div>
+            ) : currentRealtors.length === 0 ? (
+              <div className="col-span-full text-center text-gray-400 py-20">
+                No realtors found. Register to be the first!
+              </div>
+            ) : currentRealtors.map((realtor) => (
+              <motion.div 
+                key={realtor.uid}
+                variants={fadeUp}
+                className="glass-card rounded-[2rem] p-6 flex flex-col group relative overflow-hidden"
+              >
+                <div className="absolute -top-20 -right-20 w-40 h-40 bg-[var(--color-primary)]/10 rounded-full blur-[40px] group-hover:bg-[var(--color-primary)]/20 transition-colors duration-500 pointer-events-none" />
+                
+                <div className="flex items-start gap-4 mb-4 relative z-10">
+                  <div className="relative shrink-0">
+                    {realtor.photoData ? (
+                      <img 
+                        src={realtor.photoData} 
+                        alt={realtor.name} 
+                        className="w-16 h-16 rounded-2xl object-cover border-2 border-white/10 group-hover:border-[var(--color-primary)]/50 transition-colors"
+                      />
+                    ) : (
+                      <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-gray-700 to-gray-800 flex items-center justify-center text-2xl font-bold text-white border-2 border-white/10 group-hover:border-[var(--color-primary)]/50 transition-colors">
+                        {realtor.name?.charAt(0).toUpperCase()}
+                      </div>
+                    )}
+                    {realtor.isVerified && (
+                      <div className="absolute -bottom-2 -right-2 bg-blue-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full border border-black flex items-center gap-1 shadow-lg">
+                        <Shield className="w-3 h-3" />
+                        PRO
+                      </div>
+                    )}
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-bold text-white group-hover:text-[var(--color-primary)] transition-colors truncate">{realtor.name}</h3>
+                    <div className="flex items-center text-[var(--color-primary)] mt-1">
+                      <Star className="w-4 h-4 fill-[var(--color-primary)]" />
+                      <span className="ml-1 text-sm font-bold">5.0</span>
+                      <span className="mx-2 text-gray-600">•</span>
+                      <span className="text-xs font-medium text-gray-400 bg-white/5 px-2 py-0.5 rounded-md">Verified</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="space-y-2 mb-6 relative z-10 flex-grow">
+                  <div className="flex items-center text-sm text-gray-300">
+                    <MapPin className="w-4 h-4 mr-2 text-gray-500" />
+                    {realtor.city || 'Not specified'}
+                  </div>
+                  <div className="flex items-center text-sm text-gray-300">
+                    <Briefcase className="w-4 h-4 mr-2 text-gray-500" />
+                    {realtor.specialization || 'General Real Estate'}
+                  </div>
+                  <p className="text-sm text-gray-400 line-clamp-2 mt-3 leading-relaxed">
+                    {realtor.bio || 'This realtor has not provided a bio yet.'}
+                  </p>
+                </div>
+
+                <div className="flex gap-2 w-full mt-auto relative z-10">
+                  <Link 
+                    to={`/book-realtor/${realtor.uid}`}
+                    className="flex-1 py-3 rounded-xl bg-[var(--color-primary)] hover:bg-[var(--color-brand-red-dark)] text-center text-xs font-bold text-white transition-all duration-300 flex items-center justify-center gap-1.5 shadow-lg group/btn"
+                  >
+                    <Calendar className="w-3.5 h-3.5" />
+                    Consult
+                  </Link>
+                  <a 
+                    href={`https://wa.me/919999999999?text=Hi%20${encodeURIComponent(realtor.name)},%20I%20found%20your%20profile%20on%20Estate%20Studio.`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 py-3 rounded-xl bg-[#25D366] hover:bg-[#128C7E] text-center text-xs font-bold text-white transition-all duration-300 flex items-center justify-center gap-1.5 shadow-lg"
+                  >
+                    <MessageCircle className="w-3.5 h-3.5" />
+                    WhatsApp
+                  </a>
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+
+          {/* Pagination Controls */}
+          {totalPages > 1 && (
+            <div className="flex justify-center items-center mt-12 gap-4">
+              <button
+                onClick={() => paginate(Math.max(1, currentPage - 1))}
+                disabled={currentPage === 1}
+                className="p-2 rounded-full bg-white/5 border border-white/10 hover:bg-[var(--color-primary)] hover:border-[var(--color-primary)] disabled:opacity-50 disabled:hover:bg-white/5 disabled:hover:border-white/10 transition-all"
+              >
+                <ChevronLeft className="w-5 h-5 text-white" />
+              </button>
+              
+              <div className="flex gap-2">
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map((number) => (
+                  <button
+                    key={number}
+                    onClick={() => paginate(number)}
+                    className={`w-10 h-10 rounded-full text-sm font-bold transition-all ${
+                      currentPage === number 
+                        ? 'bg-[var(--color-primary)] text-white shadow-[0_0_15px_rgba(230,57,70,0.5)]' 
+                        : 'bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white'
+                    }`}
+                  >
+                    {number}
+                  </button>
+                ))}
+              </div>
+
+              <button
+                onClick={() => paginate(Math.min(totalPages, currentPage + 1))}
+                disabled={currentPage === totalPages}
+                className="p-2 rounded-full bg-white/5 border border-white/10 hover:bg-[var(--color-primary)] hover:border-[var(--color-primary)] disabled:opacity-50 disabled:hover:bg-white/5 disabled:hover:border-white/10 transition-all"
+              >
+                <ChevronRight className="w-5 h-5 text-white" />
+              </button>
+            </div>
+          )}
         </div>
       </section>
 

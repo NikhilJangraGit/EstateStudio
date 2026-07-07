@@ -20,7 +20,7 @@ const Footer = () => {
             <ul className="space-y-4 text-sm text-gray-300 font-light">
               <li><Link to="/services" className="hover:text-[var(--color-primary)] transition-colors">Cinematic Production</Link></li>
               <li><Link to="/services" className="hover:text-[var(--color-primary)] transition-colors">Strategic Lead Gen</Link></li>
-              <li><Link to="/services" className="hover:text-[var(--color-primary)] transition-colors">Architectural Branding</Link></li>
+              <li><Link to="/realtor-profile" className="hover:text-[var(--color-primary)] transition-colors text-[var(--color-primary)] font-semibold">Register as a Realtor</Link></li>
             </ul>
           </div>
 

@@ -8,7 +8,6 @@ const Pricing = () => {
       name: "Basic Studio",
       price: "₹22,000",
       period: "/ Month",
-      description: "Perfect For: Realtors, Builders & Personal Brands looking to build a consistent online presence.",
       features: [
         "15 Professional Reels (per month)",
         "Professional Video Shoot",
@@ -22,8 +21,8 @@ const Pricing = () => {
       name: "Premium Studio",
       price: "₹35,000",
       period: "/ Month",
-      description: "Perfect For: Brands that want complete social media management across multiple platforms.",
       features: [
+        "15 Professional Reels (per month)",
         "Professional Video Shoot",
         "Premium Video Editing",
         "Content Strategy Support",
@@ -136,7 +135,6 @@ const Pricing = () => {
                 <span className="text-4xl font-black text-[var(--color-primary)]">{pkg.price}</span>
                 <span className="text-gray-400 font-medium mb-1">{pkg.period}</span>
               </div>
-              <p className="text-sm text-gray-300 font-light mb-8 h-10">{pkg.description}</p>
               
               <div className="space-y-4 flex-grow mb-8">
                 {pkg.features.map((feature, j) => (
